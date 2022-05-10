@@ -5,7 +5,7 @@ const logger = require('morgan')
 
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
-const bullionsRouter = require('./routes/bullions')
+const bullionsRouter = require('./routes/bullions/index')
 
 
 const app = express()
