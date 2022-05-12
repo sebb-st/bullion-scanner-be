@@ -5,8 +5,7 @@ const logger = require('morgan')
 
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
-const bullionsRouter = require('./routes/bullions/index')
-
+const bullionsRouterWB = require('./routes/bullions/wyrobymennicze/index')
 
 const app = express()
 
@@ -18,6 +17,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
-app.use('/bullions', bullionsRouter)
+app.use('/bullions/wyrobymennicze', bullionsRouterWB)
 
 module.exports = app

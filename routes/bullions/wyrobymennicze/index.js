@@ -1,11 +1,13 @@
+const express = require('express')
+const router = express.Router()
+
 const mapResponseToBullions = require('./mapper')
 const {default: axios} = require('axios')
 const {WB_HOST, WB_GET_SILVER_BULLION_HTML_URL} = require('./config')
 
-const getBullionsByPageCounter = async (counter) => {
+const getSilverBullionsByPageCounter = async (counter) => {
     try {
         const response = await axios.get(WB_HOST + WB_GET_SILVER_BULLION_HTML_URL, {
-            responseType: 'document',
             params: {
                 'filter_traits[510]': '481',
                 'filter_availability': 'y',
@@ -19,16 +21,16 @@ const getBullionsByPageCounter = async (counter) => {
     return null
 }
 
-const getBullions = async() => {
+router.get('/silver', async (req, res, next) => {
     let counter = 0
     let result = []
     let bullions = []
     do {
-        bullions = await getBullionsByPageCounter(counter)
+        bullions = await getSilverBullionsByPageCounter(counter)
         result = result.concat(bullions)
         counter++
     } while (bullions.length > 0)
-    return result
-}
+    res.send(result)
+})
 
-module.exports = getBullions
+module.exports = router
