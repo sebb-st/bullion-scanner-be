@@ -1,35 +1,35 @@
 const express = require('express')
 const router = express.Router()
 
-const mapResponseToBullions = require('./mapper')
-const {default: axios} = require('axios')
-const {WB_HOST, WB_GET_SILVER_BULLION_HTML_URL} = require('./config')
+const {getBullions} = require('./api')
 
-const getSilverBullionsByPageCounter = async (counter) => {
+const getBullionsFromPage = async(url) => {
+    let counter = 0
+    const result = []
+    let bullions = []
     try {
-        const response = await axios.get(WB_HOST + WB_GET_SILVER_BULLION_HTML_URL, {
-            params: {
+        do {
+            bullions = await getBullions(url,{
+                counter,
                 'filter_traits[510]': '481',
                 'filter_availability': 'y',
-                'counter': counter
-            }
-        })
-        return mapResponseToBullions(response)
-    } catch (error) {
-        console.error(error)
+            })
+            result.push(...bullions)
+            counter++
+        } while (bullions.length > 0)
+        return result
+    } catch (err) {
+        console.error(err)
     }
-    return null
 }
 
 router.get('/silver', async (req, res, next) => {
-    let counter = 0
-    let result = []
-    let bullions = []
-    do {
-        bullions = await getSilverBullionsByPageCounter(counter)
-        result = result.concat(bullions)
-        counter++
-    } while (bullions.length > 0)
+    const result = await getBullionsFromPage('/pol_m_Srebrne-monety-398.html')
+    res.send(result)
+})
+
+router.get('/gold', async (req, res, next) => {
+    const result = await getBullionsFromPage('/pol_m_Zlote-monety-398.html')
     res.send(result)
 })
 
