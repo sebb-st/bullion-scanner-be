@@ -14,7 +14,9 @@ const getBullionsFromPage = async(url) => {
                 'filter_traits[510]': '481',
                 'filter_availability': 'y',
             })
-            result.push(...bullions)
+            if (bullions?.length) {
+                result.push(...bullions)
+            }
             counter++
         } while (bullions.length > 0)
         return result
@@ -29,7 +31,7 @@ router.get('/silver', async (req, res, next) => {
 })
 
 router.get('/gold', async (req, res, next) => {
-    const result = await getBullionsFromPage('/pol_m_Zlote-monety-398.html')
+    const result = await getBullionsFromPage('/pol_m_Zlote-monety-397.html')
     res.send(result)
 })
 

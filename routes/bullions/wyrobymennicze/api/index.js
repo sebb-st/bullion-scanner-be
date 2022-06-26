@@ -6,7 +6,8 @@ const getBullions = async (url, params) => {
     try {
         const response = await axios.get(WB_HOST + url, {
             responseType: 'text/html',
-            params
+            params,
+            headers: {'Cache-Control': 'no-cache'}
         })
         return mapResponseToBullions(response.data)
     } catch (error) {
