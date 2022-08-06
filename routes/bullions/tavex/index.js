@@ -1,9 +1,12 @@
 const express = require('express')
 const router = express.Router()
+const {getBullionsForPageUrl} = require('./scraper')
 
 router.get('/silver', async (req, res, next) => {
-    let result = 'TO DO'
+    const result = await getBullionsForPageUrl('/srebro/srebrne-monety-bulionowe/')
     res.send(result)
 })
+
+// TODO implement route for gold bullion
 
 module.exports = router
