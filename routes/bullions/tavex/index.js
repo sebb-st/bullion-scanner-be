@@ -5,11 +5,25 @@ const getHtmlPage = require('../../../lib/utils')
 const {HOST_URL} = require('./config')
 
 router.get('/silver', async (req, res, next) => {
-    const page = await getHtmlPage(HOST_URL + '/srebro/srebrne-monety-bulionowe/')
+    let page
+    try {
+        page = await getHtmlPage(HOST_URL + '/srebro/srebrne-monety-bulionowe/')
+    } catch (err) {
+        next(err)
+    }
     const result = scrapPageToBullions(page)
     res.send(result)
 })
 
-// TODO implement route for gold bullion
+router.get('/gold', async (req, res, next) => {
+    let page
+    try {
+        page = await getHtmlPage(HOST_URL + '/zloto/zlote-monety-bulionowe/')
+    } catch (err) {
+        next(err)
+    }
+    const result = scrapPageToBullions(page)
+    res.send(result)
+})
 
 module.exports = router

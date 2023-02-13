@@ -9,9 +9,9 @@ const scrapPageToBullions = (page) => {
             .find('.product__table .product__table-row .product__pricelist-value')[1].children[0].data
             .match(/^[0-9 ]+,[0-9]+/)
         const price = priceMatch ? priceMatch[0] : null
-        const imageURL = '-' // TODO scrap bullion image
+        const imageURL = null // TODO scrap bullion image
 
-        if (name && price && imageURL) {
+        if (name && price) {
             result.push({
                 name,
                 price,
